@@ -15,7 +15,7 @@ def check_dates():
     # Initialize a WebDriver (for Chrome)
     driver = webdriver.Chrome()  # You will need to download and specify the path to the Chrome driver executable.
 
-    URL = "https://www.ch-edoc-reservation.admin.ch/#/session?token=U27u6d4S&locale=en-US"
+    URL = os.getenv('APPT_URL')
     driver.get(URL)
 
     # Your Twilio Account SID and Auth Token
