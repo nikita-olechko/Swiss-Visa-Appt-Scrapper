@@ -14,7 +14,10 @@ git clone [link at the top of this page | root link of the repository]
 
  If you do not have git installed, install it [here](https://www.computerhope.com/issues/ch001927.htm).
 
-2. Navigate into the folder created by the git clone command.  
+2. Navigate into the folder created by the git clone command. You can do this by entering
+   ```bash
+   cd [press tab]
+   ```
 3. Create a new file called .env. If you are using the version I gave you, just copy paste the provided file. Otherwise using the .env.example file, modify the .env file with your information. You must have an active Twilio account.
 4. Install the requirements
 
