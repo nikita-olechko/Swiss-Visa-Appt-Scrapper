@@ -1,0 +1,5 @@
+DateTime~=5.5
+python-dotenv~=1.0.1
+selenium~=4.19.0
+beautifulsoup4~=4.12.3
+twilio~=9.2.1
