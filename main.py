@@ -7,8 +7,20 @@ from selenium import webdriver
 from bs4 import BeautifulSoup
 from twilio.rest import Client
 
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
 
-def check_dates():
+# CONFIGURE HERE!!
+
+# Target date in the format (year, month, day). Will send when there is an appointment before this date.
+target_date = datetime(2025, 9, 15)
+
+# Set to True if you want to call the user as well as text them.
+call_user = False
+
+
+def check_dates(target_date, call_user):
     load_dotenv()
     available_dates = []
     notifications = 0
@@ -31,13 +43,11 @@ def check_dates():
     # Your Twilio phone number
     from_phone_number = os.getenv('TWILIO_PHONE_NUMBER')
 
-    from selenium.webdriver.common.by import By
-    from selenium.webdriver.support.ui import WebDriverWait
-    from selenium.webdriver.support import expected_conditions as EC
-
     try:
+        # Not always necessary. TODO: actually check for these elements instead and operate dynamically.
         # button = WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.ID, 'rebookBtn')))
         # button.click()
+
         button = WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.ID, 'bookingListBtn')))
         button.click()
 
@@ -73,15 +83,11 @@ def check_dates():
         print(date)
         date_obj = datetime.strptime(date, "%d.%m.%Y")
 
-        # Check if the date is earlier than September 15, 2024
-        target_date = datetime(2024, 9, 15)
-        if str(date_obj).split(" ")[0] == '2023-11-21':
-            continue
         if date_obj < target_date:
 
             try:
                 # Message to send
-                message = client.messages.create(
+                client.messages.create(
                     to=to_phone_number,
                     from_=from_phone_number,
                     body='There is a Swiss-Visa appointment available on ' + date
@@ -91,16 +97,17 @@ def check_dates():
                 notifications += 1
             except Exception as e:
                 print("Text not sent. Error:", str(e))
-            try:
-                call = client.calls.create(
-                to=to_phone_number,  # Recipient's phone number
-                from_=from_phone_number,
-                url='http://demo.twilio.com/docs/voice.xml'
-                )
-                print("Calling!")
-                notifications += 1
-            except Exception as e:
-                print("Call not made. Error:", str(e))
+            if call_user:
+                try:
+                    client.calls.create(
+                        to=to_phone_number,  # Recipient's phone number
+                        from_=from_phone_number,
+                        url='http://demo.twilio.com/docs/voice.xml'
+                    )
+                    print("Calling!")
+                    notifications += 1
+                except Exception as e:
+                    print("Call not made. Error:", str(e))
             return notifications
     if message == "Date too late":
         print(f"Dates are too late. Text not sent.\n")
@@ -115,11 +122,12 @@ if __name__ == "__main__":
     texts_sent = 0
     while True:
         try:
-            texts_sent += check_dates()
+            texts_sent += check_dates(target_date, call_user)
         except Exception as e:
             print("An error occurred: ", str(e))
         time.sleep(15)
         if texts_sent > 1:
-            print(f"2 Notifications Sent. That's enough for now. Start again in 30 seconds\n. Current time is {datetime.now()}")
+            print(
+                f"2 Notifications Sent. That's enough for now. Start again in 30 seconds\n. Current time is {datetime.now()}")
             time.sleep(30)
             texts_sent = 0
