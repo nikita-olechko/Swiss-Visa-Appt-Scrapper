@@ -7,7 +7,7 @@ The Swiss Consulate does not appear to use cloudflare! This is lovely for bots. 
 ## Installation
 
 1. Clone the repository
-2. Modify the .env file with your information. You must have an active Twilio account.
+2. Create a new file called .env. Using the .env.example file, modify the .env file with your information. You must have an active Twilio account.
 3. Install the requirements
 
 On Windows
