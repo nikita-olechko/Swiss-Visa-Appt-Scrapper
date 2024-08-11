@@ -14,10 +14,13 @@ from selenium.webdriver.support import expected_conditions as EC
 # CONFIGURE HERE!!
 
 # Target date in the format (year, month, day). Will send when there is an appointment before this date.
-target_date = datetime(2025, 9, 15)
+target_date = datetime(2024, 9, 15)
 
 # Set to True if you want to call the user as well as text them.
 call_user = False
+
+# How often to check for appointments in seconds.
+run_every_x_seconds = 30
 
 
 def check_dates(target_date, call_user):
@@ -125,8 +128,8 @@ if __name__ == "__main__":
             texts_sent += check_dates(target_date, call_user)
         except Exception as e:
             print("An error occurred: ", str(e))
-        time.sleep(15)
-        if texts_sent > 1:
+        time.sleep(run_every_x_seconds)
+        if texts_sent >= 1:
             print(
                 f"2 Notifications Sent. That's enough for now. Start again in 30 seconds\n. Current time is {datetime.now()}")
             time.sleep(30)
