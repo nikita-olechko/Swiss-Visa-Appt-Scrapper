@@ -1,7 +1,4 @@
-This project will scrape Swiss consulate visa appointment, provided a url, and will send an SMS/Call you when one is available.
-
-Can be easily modified to book the appointment for you.
-
+This project will scrape Swiss consulate visa appointment, provided a url, and will send an SMS/Call and/or book the appointment for you.
 The Swiss Consulate does not appear to use Cloudflare, or any web security! Don't worry about rate limiting, at least as of 8/10/2024.
 
 ## Installation
