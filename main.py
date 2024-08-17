@@ -4,8 +4,8 @@ from SwissScrapper import SwissScrapper
 
 
 def main():
-    # Run every 30 seconds
-    run_every_x_seconds = 30
+    # Run every 3 seconds
+    run_every_x_seconds = 3
 
     # Book appointment if available
     book_appointment = True

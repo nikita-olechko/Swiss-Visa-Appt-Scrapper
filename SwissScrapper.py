@@ -134,9 +134,12 @@ class SwissScrapper:
             print("Call not made. Error:", str(e))
 
     def run_checking_loop(self, start_date, end_date):
+        times_checked = 0
         while True:
             try:
+                times_checked += 1
                 self.check_for_appointments(start_date, end_date)
+                print(f"Checked {times_checked} times. Last checked at {datetime.now()}")
             except Exception as e:
                 print(str(e))
                 break
