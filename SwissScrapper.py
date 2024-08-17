@@ -137,7 +137,8 @@ class SwissScrapper:
         while True:
             try:
                 self.check_for_appointments(start_date, end_date)
-                time.sleep(self.run_every_x_seconds)
             except Exception as e:
                 print(str(e))
                 break
+            time.sleep(self.run_every_x_seconds)
+
